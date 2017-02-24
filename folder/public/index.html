@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="MusicLibraryApp">
+
+<head>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title> Music Library</title>
+</head>
+
+<body>
+    <div class="container" ng-controller="AppCtrl">        
+            <div class="mainHeading">Music Library</div>
+        <table class="table">
+            <thead>
+            <tr>            
+                <th>Search</th>
+                <th><input class="form-control inputbox" ng-model="searchKeyword"></th>
+                <th ng-show="contacts.Music<0">No matching results found</th>
+            </tr>
+                <tr>
+                    <th>Album</th>
+                    <th>Artist</th>
+                    <th>Song</th>                    
+                </tr>
+            </thead>
+            <tbody>            
+                <tr>
+                    <td>
+                    <form>
+                        <input class="form-control inputbox" ng-model="value.Album" ng-disabled="val"  placeholder="eg: Relapse ">
+                    </td>
+                    <td>
+                        <input class="form-control inputbox" ng-model="value.Artist" ng-disabled="val" placeholder="eg: Eminem">
+                    </td>
+                    <td>
+                        <input class="form-control inputbox" type="text" ng-model="value.Song" ng-disabled="val" placeholder="eg: Not Afraid">
+                    </td>
+                    <td>
+                        <button class="btn btn-success" ng-click="addSong()">Add Song</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-info" ng-click="updateSong()">Update Song</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="deselect()">Clear</button>
+                        {{mySwitch}}
+                    </td>
+                </tr>
+                <tr ng-show="val">
+                    <td>New Song</td>
+                    <td><input class="form-control inputbox" ng-model="NewSong" placeholder="Add New Song Here" ></td>
+                    <td><button class="btn btn-success" ng-click="addMore()">Add More</button></td>
+                    <td><button class="btn btn-success" ng-click="cancel()">Cancel</button></td>
+                </tr>
+                </form>
+            </tbody>
+        </table>  
+            <div class="DisplaySection">
+                <div ng-repeat="value in Music | filter: searchKeyword | orderBy:'Album' | startFrom:(currentPage-1)*itemPerPage | limitTo:itemPerPage" class="AlbumBox" >
+                    <div class="AlbumName">{{value.Album}}
+                    </div>
+                    <div class="AlbumName"><button class="btn-plus" ng-click="ShowAddSong(value)">+</button>
+                    <button class="btn btn-warning" ng-click="edit(value._id)">Edit</button>
+                    </div>
+                    <div class="ArtistName">{{value.Artist}} </div>
+                    <div class="SongBox"> <button class="btn-delete" ng-click="remove(value._id)">X</button>{{" "+value.Song}}</div>              
+                </div>                
+            </div>
+                
+        <div class="footer">
+            <input type="button" class="btn btn-next" value="prev" ng-click="prev()" ng-disabled="currentPage==1"></input>
+    <input type="button" class="btn btn-next" value="next" ng-click="next()" ng-disabled="currentPage==numberOfPages"></input>
+    <p>5 Items Per Page</p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js">
+    </script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="controllers/controller.js"></script>
+</body>
+
+</html>
